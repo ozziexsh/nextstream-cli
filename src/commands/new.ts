@@ -59,13 +59,13 @@ export default class New extends Command {
       { cwd: backendFolder },
     );
 
-    // this.log('Installing Nextstream...');
-    // execSync(`composer require ozzie/nextstream`, { cwd: backendFolder });
+    this.log('Installing Nextstream...');
+    execSync(`composer require ozzie/nextstream`, { cwd: backendFolder });
 
-    // this.log('Copying Nextstream configuration...');
-    // execSync(
-    //   `php artisan vendor:publish --provider="Ozzie\\Nextstream\\NextstreamServiceProvider"`,
-    //   { cwd: backendFolder },
-    // );
+    this.log('Copying Nextstream configuration...');
+    execSync(
+      `php artisan vendor:publish --provider="Ozzie\\Nextstream\\NextstreamServiceProvider"`,
+      { cwd: backendFolder },
+    );
   }
 }
