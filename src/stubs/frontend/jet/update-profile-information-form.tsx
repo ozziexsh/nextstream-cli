@@ -22,7 +22,7 @@ interface Form {
 }
 
 export default function JetUpdateProfileInformationForm() {
-  const { managesProfilePhotos } = useFeatures();
+  const { hasProfilePhotoFeatures } = useFeatures();
   const user = useUser();
   const {
     register,
@@ -109,8 +109,7 @@ export default function JetUpdateProfileInformationForm() {
         </>
       )}
     >
-      {/* Profile Photo */}
-      {managesProfilePhotos && (
+      {hasProfilePhotoFeatures && (
         <div
           x-data="{photoName: null, photoPreview: null}"
           className="col-span-6 sm:col-span-4"

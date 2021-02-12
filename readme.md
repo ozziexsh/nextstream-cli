@@ -297,11 +297,8 @@ import { useFeatures } from './jet/providers';
 function Component() {
   // all booleans
   const {
-    managesProfilePhotos,
+    hasProfilePhotoFeatures,
     hasApiFeatures,
-    canCreateNewTeamModel,
-    hasTeamFeatures,
-    hasTermsAndPrivacyPolicyFeature,
     hasAccountDeletionFeatures,
     canUpdateProfileInformation,
     updatePasswords,

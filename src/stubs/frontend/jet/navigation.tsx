@@ -12,13 +12,7 @@ import Link from 'next/link';
 export default function JetNavigation() {
   const user = useUser();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const {
-    managesProfilePhotos,
-    hasApiFeatures,
-    canCreateNewTeamModel,
-    hasTeamFeatures,
-  } = useFeatures();
-  const currentTeamName = 'Team 1';
+  const { hasProfilePhotoFeatures, hasApiFeatures } = useFeatures();
   const router = useRouter();
 
   if (!user) {
@@ -46,68 +40,10 @@ export default function JetNavigation() {
           </div>
 
           <div className="hidden sm:flex sm:items-center sm:ml-6">
-            {false && (
-              <div className="ml-3 relative">
-                <JetDropdown
-                  renderTrigger={({ Trigger }) => (
-                    <span className="inline-flex rounded-md">
-                      <Trigger className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-                        {currentTeamName}
-                        <svg
-                          className="ml-2 -mr-0.5 h-4 w-4"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      </Trigger>
-                    </span>
-                  )}
-                >
-                  {({ DropdownItem }) => (
-                    <div className="w-60">
-                      <div className="block px-4 py-2 text-xs text-gray-400">
-                        Manage Team
-                      </div>
-
-                      {/* Auth::user()->currentTeam->id */}
-                      <DropdownItem>
-                        <JetDropdownLink href={'/teams/1/settings'}>
-                          Team Settings
-                        </JetDropdownLink>
-                      </DropdownItem>
-
-                      {canCreateNewTeamModel && (
-                        <DropdownItem>
-                          <JetDropdownLink href={'/teams/new'}>
-                            Create New Team
-                          </JetDropdownLink>
-                        </DropdownItem>
-                      )}
-
-                      <div className="border-t border-gray-100"></div>
-
-                      <div className="block px-4 py-2 text-xs text-gray-400">
-                        Switch Teams
-                      </div>
-
-                      {/* @foreach (Auth::user()->allTeams() as $team)
-                                          <x-jet-switchable-team :team="$team" />
-                                      @endforeach */}
-                    </div>
-                  )}
-                </JetDropdown>
-              </div>
-            )}
-
             <div className="ml-3 relative">
               <JetDropdown
                 renderTrigger={({ Trigger }) =>
-                  managesProfilePhotos ? (
+                  hasProfilePhotoFeatures ? (
                     <Trigger className="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
                       {user.profile_photo_url && (
                         <img
@@ -119,10 +55,7 @@ export default function JetNavigation() {
                     </Trigger>
                   ) : (
                     <span className="inline-flex rounded-md">
-                      <Trigger
-                        type="button"
-                        className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
-                      >
+                      <Trigger className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                         {user?.name}
                         <svg
                           className="ml-2 -mr-0.5 h-4 w-4"
@@ -229,7 +162,7 @@ export default function JetNavigation() {
 
         <div className="pt-4 pb-1 border-t border-gray-200">
           <div className="flex items-center px-4">
-            {managesProfilePhotos && user.profile_photo_url && (
+            {hasProfilePhotoFeatures && user.profile_photo_url && (
               <div className="flex-shrink-0 mr-3">
                 <img
                   className="h-10 w-10 rounded-full object-cover"
@@ -271,31 +204,6 @@ export default function JetNavigation() {
             >
               Logout
             </a>
-            {hasTeamFeatures && (
-              <>
-                <div className="border-t border-gray-200"></div>
-                <div className="block px-4 py-2 text-xs text-gray-400">
-                  Manage Team
-                </div>
-                {/* "request()->routeIs('teams.show')" */}
-                <JetResponsiveNavigationLink href="/teams/1" active={false}>
-                  Team Settings
-                </JetResponsiveNavigationLink>
-                {/* "request()->routeIs('teams.create')" */}
-                {canCreateNewTeamModel && (
-                  <JetResponsiveNavigationLink href="/teams/new" active={false}>
-                    Create New Team
-                  </JetResponsiveNavigationLink>
-                )}
-                <div className="border-t border-gray-200"></div>
-                <div className="block px-4 py-2 text-xs text-gray-400">
-                  Switch Teams
-                </div>
-                {/* @foreach (Auth::user()->allTeams() as $team) */}
-                {/* <x-jet-switchable-team :team="$team" component="jet-responsive-nav-link" /> */}
-                {/* @endforeach */}
-              </>
-            )}
           </div>
         </div>
       </div>

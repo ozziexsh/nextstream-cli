@@ -7,11 +7,7 @@ import JetInput from '../jet/input';
 import JetLabel from '../jet/label';
 import JetInputError from '../jet/input-error';
 import http from '../http';
-import {
-  handleFormErrors,
-  redirectIfAuthenticated,
-  useFeatures,
-} from '../jet/providers';
+import { handleFormErrors, redirectIfAuthenticated } from '../jet/providers';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
@@ -23,7 +19,6 @@ interface Form {
 }
 
 export default function Register() {
-  const { hasTermsAndPrivacyPolicyFeature } = useFeatures();
   const {
     register,
     handleSubmit,
@@ -110,35 +105,6 @@ export default function Register() {
               {errors?.password_confirmation?.message}
             </JetInputError>
           </div>
-
-          {hasTermsAndPrivacyPolicyFeature && (
-            <div className="mt-4">
-              <JetLabel htmlFor="terms">
-                <div className="flex items-center">
-                  <JetCheckbox name="terms" id="terms" />
-
-                  <div className="ml-2">
-                    I agree to the{' '}
-                    <a
-                      target="_blank"
-                      href="/terms-and-conditions"
-                      className="underline text-sm text-gray-600 hover:text-gray-900"
-                    >
-                      Terms of Service.
-                    </a>{' '}
-                    and{' '}
-                    <a
-                      target="_blank"
-                      href="/privacy-policy"
-                      className="underline text-sm text-gray-600 hover:text-gray-900"
-                    >
-                      Privacy Policy.
-                    </a>
-                  </div>
-                </div>
-              </JetLabel>
-            </div>
-          )}
 
           <div className="flex items-center justify-end mt-4">
             <Link href="/login">
