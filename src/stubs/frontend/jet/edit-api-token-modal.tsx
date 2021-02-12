@@ -33,7 +33,7 @@ export default function JetEditApiTokenModal({
 
   async function submit({ permissions }: Form) {
     setLoading(true);
-    const { ok } = await http(`api/api-tokens/${tokenId}`, {
+    const { ok } = await http(`api-tokens/${tokenId}`, {
       method: 'put',
       body: JSON.stringify({ permissions }),
     });

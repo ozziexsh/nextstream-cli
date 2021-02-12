@@ -15,11 +15,8 @@ export interface User {
 }
 
 export interface Features {
-  managesProfilePhotos: boolean;
+  hasProfilePhotoFeatures: boolean;
   hasApiFeatures: boolean;
-  canCreateNewTeamModel: boolean;
-  hasTeamFeatures: boolean;
-  hasTermsAndPrivacyPolicyFeature: boolean;
   hasAccountDeletionFeatures: boolean;
   canUpdateProfileInformation: boolean;
   updatePasswords: boolean;

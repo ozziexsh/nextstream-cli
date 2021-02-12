@@ -1,7 +1,7 @@
 {
   "name": "create-nextstream-app",
   "description": "Scaffold a new Laravel and Next.js application",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Ozzie Neher @ozziexsh",
   "bin": {
     "create-nextstream-app": "./bin/run"

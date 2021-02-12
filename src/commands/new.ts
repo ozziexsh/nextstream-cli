@@ -6,17 +6,16 @@ import * as path from 'path';
 export default class New extends Command {
   static description = 'Scaffold a new Laravel + Next.js application';
 
-  static examples = ['$ nexstream new app'];
+  static examples = ['$ create-nextstream-app new app'];
 
   static flags = {
-    // flag with a value (-n, --name=VALUE)
-    // name: flags.string({ char: 'n', description: 'name to print' }),
+    debug: flags.boolean({ char: 'v', description: 'debug output' }),
   };
 
   static args = [{ name: 'name' }];
 
   async run() {
-    const { args } = this.parse(New);
+    const { args, flags } = this.parse(New);
 
     this.log('Creating frontend project...');
     const rootFolder = path.join(process.cwd(), args.name);
@@ -29,6 +28,9 @@ export default class New extends Command {
         frontendFolder,
       );
     } catch (e) {
+      if (flags.debug) {
+        this.error(e);
+      }
       this.error('Failed to create frontend project');
     }
 
@@ -41,31 +43,8 @@ export default class New extends Command {
     this.log('Creating Laravel project...');
     execSync(`laravel new backend`, { cwd: rootFolder });
 
-    this.log('Installing Fortify...');
-    execSync(`composer require laravel/fortify`, { cwd: backendFolder });
-
-    this.log('Copying Fortify configuration...');
-    execSync(
-      `php artisan vendor:publish --provider="Laravel\\Fortify\\FortifyServiceProvider"`,
-      { cwd: backendFolder },
-    );
-
-    this.log('Installing Sanctum...');
-    execSync(`composer require laravel/sanctum`, { cwd: backendFolder });
-
-    this.log('Copying Sanctum configuration...');
-    execSync(
-      `php artisan vendor:publish --provider="Laravel\\Sanctum\\SanctumServiceProvider"`,
-      { cwd: backendFolder },
-    );
-
     this.log('Installing Nextstream...');
     execSync(`composer require ozzie/nextstream`, { cwd: backendFolder });
-
-    this.log('Copying Nextstream configuration...');
-    execSync(
-      `php artisan vendor:publish --provider="Ozzie\\Nextstream\\NextstreamServiceProvider"`,
-      { cwd: backendFolder },
-    );
+    execSync(`php artisan nextstream:install`, { cwd: backendFolder });
   }
 }

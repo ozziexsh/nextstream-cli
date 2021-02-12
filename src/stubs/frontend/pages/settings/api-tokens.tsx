@@ -46,13 +46,10 @@ export default function ApiTokens() {
 
   async function submit(values: Form) {
     setLoading(true);
-    const { ok, data, errors: submitErrors } = await http(
-      'api/user/api-tokens',
-      {
-        method: 'post',
-        body: JSON.stringify(values),
-      },
-    );
+    const { ok, data, errors: submitErrors } = await http('user/api-tokens', {
+      method: 'post',
+      body: JSON.stringify(values),
+    });
     setLoading(false);
     if (!ok) {
       return void handleFormErrors({ setError, errors: submitErrors });

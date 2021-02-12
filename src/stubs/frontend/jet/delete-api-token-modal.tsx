@@ -20,7 +20,7 @@ export default function JetDeleteApiTokenModal({
 
   async function submit() {
     setLoading(true);
-    const { ok } = await http(`api/api-tokens/${tokenId}`, {
+    const { ok } = await http(`api-tokens/${tokenId}`, {
       method: 'delete',
     });
     setLoading(false);

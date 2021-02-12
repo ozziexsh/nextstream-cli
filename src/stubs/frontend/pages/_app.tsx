@@ -25,10 +25,10 @@ async function getToken(req: NextApiRequest) {
 }
 
 async function getUser(req: NextApiRequest) {
-  const { ok, data } = await http('api/user', { req });
+  const { ok, data } = await http('user', { req });
   return {
     cookies: [
-      cookie.serialize('user', JSON.stringify(ok ? data : null), {
+      cookie.serialize('user', JSON.stringify(ok ? data.user : null), {
         expires: moment().add(1, 'day').toDate(),
         path: '/',
       }),
@@ -38,7 +38,7 @@ async function getUser(req: NextApiRequest) {
 }
 
 async function getFeatures(req: NextApiRequest) {
-  const { ok, data } = await http('api/features', { req });
+  const { ok, data } = await http('features', { req });
   return {
     cookies: [
       cookie.serialize('features', JSON.stringify(ok ? data : null), {

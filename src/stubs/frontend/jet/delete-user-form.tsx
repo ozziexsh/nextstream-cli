@@ -16,7 +16,7 @@ export default function JetDeleteUserForm() {
 
   async function submit() {
     setLoading(true);
-    const { ok, errors } = await http('api/user', {
+    const { ok, errors } = await http('user', {
       method: 'delete',
       body: JSON.stringify({ password }),
     });

@@ -43,7 +43,7 @@ export function useRefreshUser() {
     if (!data) {
       return; // todo
     }
-    Cookies.set('user', encodeURIComponent(JSON.stringify(data)), {
+    Cookies.set('user', encodeURIComponent(JSON.stringify(data.user)), {
       path: '/',
       expires: 7,
     });
@@ -56,11 +56,8 @@ export const FeatureContext = createContext<Nullable<Features>>(null);
 export function useFeatures(): Features {
   return (
     useContext(FeatureContext) ?? {
-      managesProfilePhotos: false,
+      hasProfilePhotoFeatures: false,
       hasApiFeatures: false,
-      canCreateNewTeamModel: false,
-      hasTeamFeatures: false,
-      hasTermsAndPrivacyPolicyFeature: false,
       hasAccountDeletionFeatures: false,
       canUpdateProfileInformation: false,
       updatePasswords: false,
@@ -115,7 +112,7 @@ export function useApiTokens() {
     tokens: Token[];
     availablePermissions: string[];
     defaultPermissions: string[];
-  }>('api/user/api-tokens', swrHttpFetcher);
+  }>('user/api-tokens', swrHttpFetcher);
 }
 
 export function useConfirmPassword() {

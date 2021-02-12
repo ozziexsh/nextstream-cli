@@ -53,7 +53,7 @@ export default function JetUpdateProfileInformationForm() {
     }
     setLoading(true);
     const { ok, errors: submitErrors } = await http(
-      'api/user/profile-information',
+      'user/profile-information',
       {
         method: 'post',
         body: formData,

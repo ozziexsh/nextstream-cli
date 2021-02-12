@@ -1,6 +1,6 @@
 # Laravel Nextstream
 
-A direct port of [Laravel Jetstream](https://jetstream.laravel.com/2.x/introduction.html) to [Next.js](https://nextjs.org/). All credit goes to [Taylor Otwell](https://twitter.com/taylorotwell) and the [Laravel team](https://laravel.com).
+A port of [Laravel Jetstream](https://jetstream.laravel.com/2.x/introduction.html) to [Next.js](https://nextjs.org/). All credit goes to [Taylor Otwell](https://twitter.com/taylorotwell) and the [Laravel team](https://laravel.com).
 
 ## Installation
 
@@ -9,6 +9,27 @@ $ npx create-nextstream-app new my-app
 ```
 
 Laravel setup
+
+First, add the required service providers in `config/app.php`
+
+```php
+'providers' => [
+  // ...
+  App\Providers\NextstreamServiceProvider::class,
+],
+```
+
+Then, add the sanctum middleware to `app/Http/Kernel.php`
+
+```php
+'api' => [
+    \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+    'throttle:api',
+    \Illuminate\Routing\Middleware\SubstituteBindings::class,
+],
+```
+
+Then configure the database and serve the app
 
 ```bash
 # ensure you set your db credentials in backend/.env
@@ -69,7 +90,7 @@ Accepts:
 - `header?: string` - optional, the white header right under the navigation
 
 ```tsx
-import JetAppLayout from "./jet/app-layout";
+import JetAppLayout from './jet/app-layout';
 
 function Component() {
   return (
@@ -85,14 +106,14 @@ function Component() {
 Button with a few different appearances for use within your application. Accepts all normal button props with the addition of `status`.
 
 ```tsx
-import JetButton from "./jet/button";
+import JetButton from './jet/button';
 
 function Component() {
   return (
     <div>
       <JetButton>Primary</JetButton>
-      <JetButton status={"secondary"}>Secondary</JetButton>
-      <JetButton status={"danger"}>Danger</JetButton>
+      <JetButton status={'secondary'}>Secondary</JetButton>
+      <JetButton status={'danger'}>Danger</JetButton>
     </div>
   );
 }
@@ -103,7 +124,7 @@ function Component() {
 Styled checkbox. Takes same props as an HTML input.
 
 ```tsx
-import JetCheckbox from "./jet/button";
+import JetCheckbox from './jet/button';
 
 function Component() {
   return (
@@ -126,13 +147,13 @@ function Component() {
   return (
     <JetConfirmationModal
       {...modal.props}
-      title={"Delete User?"}
+      title={'Delete User?'}
       renderFooter={() => (
         <>
-          <JetButton status={"secondary"} onClick={modal.close}>
+          <JetButton status={'secondary'} onClick={modal.close}>
             Nevermind
           </JetButton>
-          <JetButton status={"danger"} className="ml-2">
+          <JetButton status={'danger'} className="ml-2">
             Delete
           </JetButton>
         </>
@@ -153,7 +174,7 @@ function Component() {
   return (
     <JetDialogModal
       {...modal.props}
-      title={"Your one-time key"}
+      title={'Your one-time key'}
       renderFooter={() => (
         <>
           <JetButton className="ml-2">Ok</JetButton>
@@ -177,12 +198,12 @@ function Component() {
       {({ DropdownItem }) => (
         <div>
           <DropdownItem>
-            <JetDropdownLink href={"/teams/1/settings"}>
+            <JetDropdownLink href={'/teams/1/settings'}>
               Team Settings
             </JetDropdownLink>
           </DropdownItem>
           <DropdownItem>
-            <JetDropdownLink href={"/teams/new"}>
+            <JetDropdownLink href={'/teams/new'}>
               Create New Team
             </JetDropdownLink>
           </DropdownItem>
@@ -236,7 +257,7 @@ todo
 Returns the logged in user via the cookie.
 
 ```tsx
-import { useUser } from "./jet/providers";
+import { useUser } from './jet/providers';
 
 function Component() {
   const user = useUser();
@@ -248,15 +269,15 @@ function Component() {
 Returns a function that you can call that will re-fetch the current user from the API and store it in the cookie.
 
 ```tsx
-import { useRefreshUser } from "./jet/providers";
+import { useRefreshUser } from './jet/providers';
 
 function Component() {
   const refreshUser = useRefreshUser();
 
   // e.g. you updated the users name now need to refresh them accross the app
   function onUserUpdated() {
-    await http("api/user", {
-      method: "patch",
+    await http('user', {
+      method: 'patch',
       body: {
         // ...
       },
@@ -271,7 +292,7 @@ function Component() {
 Returns all of the jetstream features and whether or not they are enabled for your application based on your configuration set in your Laravel app.
 
 ```tsx
-import { useFeatures } from "./jet/providers";
+import { useFeatures } from './jet/providers';
 
 function Component() {
   // all booleans
@@ -294,7 +315,7 @@ function Component() {
 A convenience helper for storing modal state
 
 ```tsx
-import { useModal } from "./jet/providers";
+import { useModal } from './jet/providers';
 
 function Component() {
   const myModal = useModal();
@@ -309,7 +330,7 @@ function Component() {
     <div>
       <JetButton onClick={myModal.open}>Confirm</JetButton>
 
-      <JetConfirmModal title={"Are you sure?"} {...myModal.props}>
+      <JetConfirmModal title={'Are you sure?'} {...myModal.props}>
         {/* ... */}
       </JetConfirmModal>
     </div>
@@ -328,7 +349,7 @@ Returns an object with the following keys:
 - `withPasswordConfirmation` - Pass the function you want to run after the password has been confirmed. Returns a function that when called triggers the confirm password flow
 
 ```tsx
-import { useConfirmPassword } from "./jet/providers";
+import { useConfirmPassword } from './jet/providers';
 
 function Component() {
   const {
@@ -361,7 +382,7 @@ The signature for the function matches that of the global `fetch`
 ```typescript
 async function http(
   input: RequestInfo,
-  init?: Init
+  init?: Init,
 ): {
   ok: boolean;
   response: Response; // raw fetch response
@@ -375,14 +396,14 @@ To make a request inside a React component (client side):
 ```typescript
 // example GET request
 async function getUser() {
-  const { ok, data } = await http("api/user");
+  const { ok, data } = await http('user');
 }
 
 // example POST request
 async function submit() {
-  const { ok, data } = await http("api/user/password", {
-    method: "post",
-    body: JSON.stringify({ old_password: "abcd", password: "defg" }),
+  const { ok, data } = await http('user/password', {
+    method: 'post',
+    body: JSON.stringify({ old_password: 'abcd', password: 'defg' }),
   });
 }
 ```
@@ -391,7 +412,7 @@ Making requests during SSR is almost exactly the same except you need to remembe
 
 ```typescript
 export const getServerSideProps: GetServerSideProps = ({ req, res }) => {
-  const { ok, response, data, errors } = await http("api/user", { req });
+  const { ok, response, data, errors } = await http('user', { req });
   if (!ok) {
     res.statusCode = 500;
     res.end();
@@ -410,8 +431,8 @@ That means that if you are wanting to send JSON, you need to manually stringify 
 
 ```typescript
 async function onSubmit() {
-  const { ok, response, data, errors } = await http("api/my-post-request", {
-    method: "post",
+  const { ok, response, data, errors } = await http('api/my-post-request', {
+    method: 'post',
     body: JSON.stringify(data),
   });
 }
@@ -422,9 +443,9 @@ Which also means you can pass formdata if you want (for file uploads, etc) and i
 ```typescript
 async function onSubmit() {
   const formData = new FormData();
-  formData.append("photo", myFile, myFile.name);
-  const { ok, response, data, errors } = await http("api/my-post-request", {
-    method: "post",
+  formData.append('photo', myFile, myFile.name);
+  const { ok, response, data, errors } = await http('api/my-post-request', {
+    method: 'post',
     body: formData,
   });
 }
@@ -452,7 +473,7 @@ You can also provide a function that gets executed if you would still like to ad
 
 ```typescript
 export const getServerSideProps = redirectIfGuest(({ req }) => {
-  const { ok, data } = await http("api/user", { req });
+  const { ok, data } = await http('user', { req });
   // ...
   return {
     props: {
