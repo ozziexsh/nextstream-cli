@@ -22,17 +22,11 @@ export default class New extends Command {
     const frontendFolder = path.join(rootFolder, 'frontend');
     const backendFolder = path.join(rootFolder, 'backend');
     fs.mkdirSync(rootFolder);
-    try {
-      fs.copySync(
-        path.join(__dirname, '../', 'stubs', 'frontend'),
-        frontendFolder,
-      );
-    } catch (e) {
-      if (flags.debug) {
-        this.error(e);
-      }
-      this.error('Failed to create frontend project');
-    }
+    execSync(
+      'git clone https://github.com/ozziexsh/nextstream-ts.git frontend',
+      { cwd: rootFolder },
+    );
+    execSync('rm -rf frontend/.git', { cwd: rootFolder });
 
     this.log('Installing npm dependencies');
     execSync('npm i', { cwd: frontendFolder });

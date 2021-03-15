@@ -1,12 +1,12 @@
 {
   "name": "create-nextstream-app",
   "description": "Scaffold a new Laravel and Next.js application",
-  "version": "0.0.5",
+  "version": "0.0.8",
   "author": "Ozzie Neher @ozziexsh",
   "bin": {
     "create-nextstream-app": "./bin/run"
   },
-  "bugs": "https://github.com/ozziexsh/laravel-nextstream/issues",
+  "bugs": "https://github.com/ozziexsh/nextstream-cli/issues",
   "dependencies": {
     "@oclif/command": "^1.8.0",
     "@oclif/config": "^1.17.0",

@@ -4,32 +4,13 @@ A port of [Laravel Jetstream](https://jetstream.laravel.com/2.x/introduction.htm
 
 ## Installation
 
+Scaffold the project
+
 ```bash
 $ npx create-nextstream-app new my-app
 ```
 
-Laravel setup
-
-First, add the required service providers in `config/app.php`
-
-```php
-'providers' => [
-  // ...
-  App\Providers\NextstreamServiceProvider::class,
-],
-```
-
-Then, add the sanctum middleware to `app/Http/Kernel.php`
-
-```php
-'api' => [
-    \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-    'throttle:api',
-    \Illuminate\Routing\Middleware\SubstituteBindings::class,
-],
-```
-
-Then configure the database and serve the app
+Configure the database and serve the backend
 
 ```bash
 # ensure you set your db credentials in backend/.env
@@ -38,7 +19,7 @@ $ php artisan migrate
 $ php artisan serve
 ```
 
-Next.js setup
+Serve the frontend
 
 ```bash
 $ cd frontend
@@ -90,7 +71,7 @@ Accepts:
 - `header?: string` - optional, the white header right under the navigation
 
 ```tsx
-import JetAppLayout from './jet/app-layout';
+import JetAppLayout from './jet/layouts/app-layout';
 
 function Component() {
   return (
@@ -106,7 +87,7 @@ function Component() {
 Button with a few different appearances for use within your application. Accepts all normal button props with the addition of `status`.
 
 ```tsx
-import JetButton from './jet/button';
+import JetButton from './jet/components/button';
 
 function Component() {
   return (
@@ -124,7 +105,7 @@ function Component() {
 Styled checkbox. Takes same props as an HTML input.
 
 ```tsx
-import JetCheckbox from './jet/button';
+import JetCheckbox from './jet/components/button';
 
 function Component() {
   return (
@@ -257,7 +238,7 @@ todo
 Returns the logged in user via the cookie.
 
 ```tsx
-import { useUser } from './jet/providers';
+import { useUser } from './jet/helpers/auth';
 
 function Component() {
   const user = useUser();
@@ -269,7 +250,7 @@ function Component() {
 Returns a function that you can call that will re-fetch the current user from the API and store it in the cookie.
 
 ```tsx
-import { useRefreshUser } from './jet/providers';
+import { useRefreshUser } from './jet/helpers/auth';
 
 function Component() {
   const refreshUser = useRefreshUser();
@@ -292,7 +273,7 @@ function Component() {
 Returns all of the jetstream features and whether or not they are enabled for your application based on your configuration set in your Laravel app.
 
 ```tsx
-import { useFeatures } from './jet/providers';
+import { useFeatures } from './jet/helpers/auth';
 
 function Component() {
   // all booleans
@@ -312,7 +293,7 @@ function Component() {
 A convenience helper for storing modal state
 
 ```tsx
-import { useModal } from './jet/providers';
+import { useModal } from './jet/components/modal';
 
 function Component() {
   const myModal = useModal();
@@ -346,7 +327,7 @@ Returns an object with the following keys:
 - `withPasswordConfirmation` - Pass the function you want to run after the password has been confirmed. Returns a function that when called triggers the confirm password flow
 
 ```tsx
-import { useConfirmPassword } from './jet/providers';
+import { useConfirmPassword } from './jet/components/confirm-password-modal';
 
 function Component() {
   const {
@@ -495,8 +476,8 @@ All included forms make use of the `react-hook-form` library. To find out more, 
 - [ ] Team support
 - [ ] Browser sessions
 - [ ] Email verification
-- [ ] Project initializer
+- [x] Project initializer
 - [ ] Tests
 - [ ] Terms and conditions / privacy policy
 - [ ] Documentation (http, components, auth, etc)
-- [ ] Organize jet files + providers
+- [x] Organize jet files + providers
