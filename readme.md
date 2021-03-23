@@ -2,6 +2,12 @@
 
 A port of [Laravel Jetstream](https://jetstream.laravel.com/2.x/introduction.html) to [Next.js](https://nextjs.org/). All credit goes to [Taylor Otwell](https://twitter.com/taylorotwell) and the [Laravel team](https://laravel.com).
 
+This project is separated into 3 repositories:
+
+- CLI scaffolding / documentation (this repo)
+- [Laravel package](https://github.com/ozziexsh/nextstream-php)
+- [Next.js project](https://github.com/ozziexsh/nextstream-ts)
+
 ## Installation
 
 Scaffold the project
